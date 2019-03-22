@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ToDo App With redux</title>
+    <style>
+    </style>
+</head>
+<body>
+    <h1>ToDo App with REDUX</h1>
+
+    <input type="text" id="todo-name">
+    <button id="submit-button">
+        Add to do
+    </button>
+    <div id="todos-container">
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.1/redux.js"></script>
+
+    <script>
+        const c = Redux;
+        console.log(c);
+        const reducer = Redux.combineReducers({
+            todos: (state = [], action) => {
+                const newState = Object.assign([], state);
+
+                if (action.type == "add") {
+                    newState.push(action.item)
+                }
+                if (action.type == "remove") {
+                    /*
+                    for(var i = 0; i < newState.length; i++){ 
+                        if (state[i] === action.item) {
+                            newState.splice(i, 1); 
+                        }
+                    }
+                    */
+                   newState.splice(action.index, 1);
+                }
+                return newState;
+
+            }
+        });
+        const store = Redux.createStore(reducer);        
+        const render = () => {
+            const state = store.getState();
+            const container = document.getElementById('todos-container');
+            container.innerHTML = "";
+            state.todos.forEach((todo, index) => {
+                const e = document.createElement('div');
+                e.innerHTML = todo;
+                container.appendChild(e);
+                e.addEventListener('click', function (e) {
+                    store.dispatch({
+                        type: 'remove',
+                        index: index
+                    });
+                    render();
+                });
+            });
+        }
+        const submitButton = document.getElementById('submit-button');
+        
+        submitButton.addEventListener('click', () => {
+            store.dispatch({
+                type: 'add',
+                item: document.getElementById('todo-name').value
+            });
+            render();
+        });
+
+        /*
+        const c = document.getElementById('todos-container');
+        c.addEventListener('click', ev => {
+            store.dispatch({
+                type: 'remove',
+                item: ev.target.innerText
+            });
+            render();
+        })
+        */
+    </script>
+</body>
+</html>
