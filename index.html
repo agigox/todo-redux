@@ -7,17 +7,40 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ToDo App With redux</title>
     <style>
+        .container {
+            width: 80%;
+            border: 1px solid #dad0d0;
+            margin: 0 auto;
+            padding: 25px;
+            border-radius: 5px;
+        }
+        .container h1 {
+            text-align: center;
+        }
+        .user-interact input {
+            width: 80%;
+            border-radius: 5px;
+        }
+        .user-interact button {
+            width: 19%;
+            float: right;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
-    <h1>ToDo App with REDUX</h1>
+    <div class="container">
+        <h1>To do list</h1>
 
-    <input type="text" id="todo-name">
-    <button id="submit-button">
-        Add to do
-    </button>
-    <div id="todos-container">
+        <div class="user-interact">
+            <input type="text" id="todo-name">
+            <button id="submit-button">
+                ADD
+            </button>
+            <ul id="todos-container">
+        </div>
 
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.1/redux.js"></script>
 
@@ -51,7 +74,7 @@
             const container = document.getElementById('todos-container');
             container.innerHTML = "";
             state.todos.forEach((todo, index) => {
-                const e = document.createElement('div');
+                const e = document.createElement('li');
                 e.innerHTML = todo;
                 container.appendChild(e);
                 e.addEventListener('click', function (e) {
